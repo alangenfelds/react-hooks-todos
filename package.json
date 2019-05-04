@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "axios": "^0.18.0",
+    "react": "next",
+    "react-dom": "next",
     "react-scripts": "3.0.0"
   },
   "scripts": {
