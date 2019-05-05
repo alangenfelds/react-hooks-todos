@@ -1,4 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
+import Axios from 'axios';
+import uuidv4 from 'uuid/v4';
 import TodosContext from "../context";
 
 export default function TodoForm() {
@@ -16,12 +18,21 @@ export default function TodoForm() {
     }
   }, [currentTodo.id]);
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
+    // TODO: check for empty or repeated text before calling actions
     event.preventDefault();
     if (currentTodo.text) {
-      dispatch({ type: "UPDATE_TODO", payload: todo });
+      const response = await Axios.patch(`https://todos-api.alangenfeld.now.sh/todos/${currentTodo.id}`, {
+        text: todo
+      });
+      dispatch({ type: "UPDATE_TODO", payload: response.data });
     } else {
-      dispatch({ type: "ADD_TODO", payload: todo });
+     const response = await Axios.post("https://todos-api.alangenfeld.now.sh/todos", {
+        id: uuidv4(),
+        text: todo,
+        complete: false
+      })
+      dispatch({ type: "ADD_TODO", payload: response.data });
     }
     setTodo("");
   };
